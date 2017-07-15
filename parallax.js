@@ -1,36 +1,46 @@
-function funParralax($selector)
-{
+(function ($) {
+
+	$.fn.parallax = function () {
+
 		var varWidthWindow = $(window).width();
 
 		if (varWidthWindow < 768)
 		{
-				$($selector).css('background-position', "");
-				return;
+			$(this).css('background-position', "");
+			return;
 		}
 
-		$($selector).each(function () {
+		$(this).each(function () {
 
-				var $obj = $(this);
+			var $obj = $(this);
 
-				$(window).scroll(function () {
+			console.log(this);
 
-						var varTopScroll = $(window).scrollTop();
-						var varTopElement = $obj.offset().top;
-						var varHeightWindow = $(window).height();
+			$(window).scroll(function () {
 
-						var varElementVisibilityStartPoint = varTopElement - varHeightWindow;
-						varElementVisibilityStartPoint = (varElementVisibilityStartPoint < 0) ? 0 : varElementVisibilityStartPoint;
+				var varTopScroll = $(window).scrollTop();
+				var varTopElement = $obj.offset().top;
+				var varHeightWindow = $(window).height();
 
-						if (varTopElement + varHeightWindow < varTopScroll || varTopElement > varTopScroll + varHeightWindow) {
-								/* console.log("Out of view"); */
-								return;
-						}
+				var varElementVisibilityStartPoint = varTopElement - varHeightWindow;
+				varElementVisibilityStartPoint = (varElementVisibilityStartPoint < 0) ? 0 : varElementVisibilityStartPoint;
 
-						var yPos = -((varTopScroll - varElementVisibilityStartPoint) * $obj.data('speed'));
-						var bgpos = '50% ' + yPos + 'px';
+				if (varTopElement + varHeightWindow < varTopScroll || varTopElement > varTopScroll + varHeightWindow) {
+					/* console.log("Out of view"); */
+					return;
+				}
 
-						$obj.css('background-position', bgpos);
+				var yPos = -((varTopScroll - varElementVisibilityStartPoint) * $obj.data('speed'));
+				var bgpos = '50% ' + yPos + 'px';
 
-				});
+				$obj.css('background-position', bgpos);
+
+			});
 		});
-}
+
+		return this;
+
+	};
+
+
+}(jQuery));
